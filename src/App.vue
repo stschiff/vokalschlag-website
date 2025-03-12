@@ -1,4 +1,8 @@
 <script>
+
+import { createClient } from 'contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
 export default {
     data() {
         return {
@@ -14,13 +18,13 @@ export default {
     },
     methods: {
         async getEvents() {
-            const client = contentful.createClient({
+            const client = createClient({
                 space: '76yj40147xeg',
                 accessToken: 'PxDUlLWp-vM4MjXlJYXv8goBxSpp1SNNgcGaofwTWf0',
             })
             // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token
             client
-                .getEntries()
+                .getEntries({'include': 2})
                 .then((entry) => this.events = entry.items)
                 .catch((err) => console.log(err))
         },
@@ -35,6 +39,19 @@ export default {
                 minute: "numeric"
             };
             return date.toLocaleDateString("de-DE", options);
+        },
+        renderDescription(event) {
+            return documentToHtmlString(event.fields.description,  {
+                renderNode: {
+                    'embedded-asset-block': (node) => {
+                    const { title, file } = node.data.target.fields;
+                    const imageUrl = file.url;
+                    const imageAlt = title;
+                    return `<img src="${imageUrl}" alt="${imageAlt}" />`;
+                    },
+                    // Add other node handlers if necessary
+                }
+            });
         }
     },
     computed: {
@@ -42,12 +59,20 @@ export default {
             return this.events.filter(e => {
                 const d = new Date(e.fields.date);
                 return d >= Date.now();
+            }).sort((a, b) => {
+                const d1 = new Date(a.fields.date);
+                const d2 = new Date(b.fields.date);
+                return d1 - d2;
             })
         },
         pastEvents() {
             return this.events.filter(e => {
                 const d = new Date(e.fields.date);
                 return d < Date.now();
+            }).sort((a, b) => {
+                const d1 = new Date(a.fields.date);
+                const d2 = new Date(b.fields.date);
+                return d2 - d1;
             })
         }
     },
@@ -87,10 +112,7 @@ export default {
             <h3 class="has-text-weight-light">{{ event.fields.title }}<br />
                 <small>{{ renderDate(event) }}</small></h3>
                 <p v-html="event.location"></p>
-                <details>
-                    <summary>Details</summary>
-                    <span v-html="event.fields.description"></span>
-                </details>
+                <div v-html="renderDescription(event)"></div>
         </div>
         <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Konzert-Archiv</h2>
         <div id="events" class="content m-5 p-5" v-for="event in pastEvents">
@@ -99,7 +121,7 @@ export default {
                 <p v-html="event.location"></p>
                 <details>
                     <summary>Details</summary>
-                    <span v-html="event.fields.description"></span>
+                    <div v-html="renderDescription(event)"></div>
                 </details>
         </div>
     </section>
