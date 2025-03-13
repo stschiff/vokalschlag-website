@@ -3,6 +3,63 @@
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
+function renderDescription({ content }) {
+    const textNodes = [];
+    const imageNodes = [];
+
+    // Splitting text and image nodes
+    content.forEach(node => {
+        if (node.nodeType === 'embedded-asset-block') {
+            imageNodes.push(node);
+        } else {
+            textNodes.push(node);
+        }
+    });
+
+    // Add options for documentToHtmlString
+    const options = {
+        renderNode: {
+            'embedded-asset-block': node => {
+                const { title, file } = node.data.target.fields;
+                const imageUrl = file.url;
+                const imageAlt = title;
+                return `
+                    <img src="${imageUrl}" alt="${imageAlt}" />
+                `;
+            },
+            // Add other node handlers if necessary
+        },
+    };
+
+    // Rendering text and images to HTML
+    const renderedText = documentToHtmlString({ content: textNodes, nodeType: 'document' }, options);
+    const renderedImages = documentToHtmlString({ content: imageNodes, nodeType: 'document' }, options);
+
+    // Return the wrapped HTML
+    return `
+        <div class="columns">
+            <div class="column">
+                ${renderedText}
+            </div>
+            <div class="column">
+                ${renderedImages}
+            </div>
+        </div>
+    `;
+}
+
+function renderDate(date) {
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+    };
+    return date.toLocaleDateString("de-DE", options);
+}
+
 export default {
     data() {
         return {
@@ -25,54 +82,36 @@ export default {
             // This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token
             client
                 .getEntries({'include': 2})
-                .then((entry) => this.events = entry.items)
+                .then((entry) => {
+                    this.events = entry.items.map(e => {
+                        const date = new Date(e.fields.date);
+                        const renderedDate = renderDate(date);
+                        const renderedDescription = e.fields.description ? renderDescription(e.fields.description) : "";
+                        return {
+                            date,
+                            renderedDate,
+                            location: documentToHtmlString(e.fields.location),
+                            title: e.fields.title,
+                            renderedDescription
+                        }
+                    });
+                })
                 .catch((err) => console.log(err))
         },
-        renderDate(event) {
-            const date = new Date(event.fields.date);
-            const options = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric"
-            };
-            return date.toLocaleDateString("de-DE", options);
-        },
-        renderDescription(event) {
-            return documentToHtmlString(event.fields.description,  {
-                renderNode: {
-                    'embedded-asset-block': (node) => {
-                    const { title, file } = node.data.target.fields;
-                    const imageUrl = file.url;
-                    const imageAlt = title;
-                    return `<img src="${imageUrl}" alt="${imageAlt}" />`;
-                    },
-                    // Add other node handlers if necessary
-                }
-            });
-        }
     },
     computed: {
         futureEvents() {
             return this.events.filter(e => {
-                const d = new Date(e.fields.date);
-                return d >= Date.now();
+                return e.date >= Date.now();
             }).sort((a, b) => {
-                const d1 = new Date(a.fields.date);
-                const d2 = new Date(b.fields.date);
-                return d1 - d2;
+                return a.date - b.date;
             })
         },
         pastEvents() {
             return this.events.filter(e => {
-                const d = new Date(e.fields.date);
-                return d < Date.now();
+                return e.date < Date.now();
             }).sort((a, b) => {
-                const d1 = new Date(a.fields.date);
-                const d2 = new Date(b.fields.date);
-                return d2 - d1;
+                return b.date - a.date;
             })
         }
     },
@@ -109,19 +148,20 @@ export default {
     <section class="container has-background-success">
         <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Anstehende Konzerte</h2>
         <div id="events" class="content m-5 p-5" v-for="event in futureEvents">
-            <h3 class="has-text-weight-light">{{ event.fields.title }}<br />
-                <small>{{ renderDate(event) }}</small></h3>
+            <h3 class="has-text-weight-light">{{ event.title }}<br />
+                <small>{{ event.renderedDate }}</small>
+                </h3>
                 <p v-html="event.location"></p>
-                <div v-html="renderDescription(event)"></div>
+                <div v-html="event.renderedDescription"></div>
         </div>
         <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Konzert-Archiv</h2>
         <div id="events" class="content m-5 p-5" v-for="event in pastEvents">
-            <h3 class="has-text-weight-light">{{ event.fields.title }}<br />
-                <small>{{ renderDate(event) }}</small></h3>
+            <h3 class="has-text-weight-light">{{ event.title }}<br />
+                <small>{{ event.renderedDate }}</small></h3>
                 <p v-html="event.location"></p>
                 <details>
                     <summary>Details</summary>
-                    <div v-html="renderDescription(event)"></div>
+                    <div v-html="event.renderedDescription"></div>
                 </details>
         </div>
     </section>
