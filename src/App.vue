@@ -2,6 +2,8 @@
 
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import Ensemble from './Ensemble.vue';
+
 
 function renderDescription({ content }) {
     const textNodes = [];
@@ -63,15 +65,12 @@ function renderDate(date) {
 export default {
     data() {
         return {
-            singers: [
-                ["Anne Günster, Sopran",        "/assets/Anne.png"],
-                ["Laura Zucchini, Mezzosopran", "/assets/Laura.png"],
-                ["Denise Weltken, Alt",         "/assets/Denise.png"],
-                ["Christian Pukelsheim, Tenor", "/assets/Puki.png"],
-                ["Stephan Schiffels, Bariton",  "/assets/Stephan.png"],
-                ["Jonas Zucchini, Bass",        "/assets/Jonas.png"]],
-            events: []
+            events: [],
+            selectedArchiveYearIndex: 0
         };
+    },
+    components: {
+        Ensemble
     },
     methods: {
         async getEvents() {
@@ -98,21 +97,30 @@ export default {
                 })
                 .catch((err) => console.log(err))
         },
-    },
-    computed: {
+    // },
+    // computed: {
         futureEvents() {
-            return this.events.filter(e => {
-                return e.date >= Date.now();
-            }).sort((a, b) => {
-                return a.date - b.date;
-            })
+            return this.events
+                .filter(e => e.date >= Date.now())
+                .sort((a, b) => a.date - b.date)
         },
         pastEvents() {
-            return this.events.filter(e => {
-                return e.date < Date.now();
-            }).sort((a, b) => {
-                return b.date - a.date;
-            })
+            return this.events
+                .filter(e => e.date.getFullYear() == this.selectedArchiveYear())
+                .sort((a, b) => b.date - a.date)
+        },
+        archiveYears() {
+            const allYears = this.events
+                .filter(e => e.date < Date.now())   
+                .map(e => e.date.getFullYear())
+                .sort((a, b) => b - a);
+            return [...new Set(allYears)];
+        },
+        selectedArchiveYear() {
+            return this.archiveYears()[this.selectedArchiveYearIndex];
+        },
+        setSelectedYearIndex(index) {
+            this.selectedArchiveYearIndex = index;
         }
     },
     mounted() {
@@ -122,7 +130,7 @@ export default {
 </script>
 
 <template>
-    <section class="container has-background-light has-text-weight-light">
+    <section class="container has-background-light has-text-weight-light" id="ensemble">
         <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Vokalschlag</h2>
         <div class="content m-5 p-5">
             <p>Einzigartige Stimmfarben, intensiver musikalischer Ausdruck und eine große Nähe zum Konzertpublikum – das zeichnet das Ensemble Vokalschlag aus. Seit 2008 konzertiert das A-cappella-Sextett deutschlandweit und präsentiert seinem Publikum anspruchsvolle und professionell erarbeitete Werke vom 16. bis zum 21. Jahrhundert.</p>
@@ -132,30 +140,43 @@ export default {
             <p>Die musikalische Heimat des Kölner Ensembles ist insbesondere die Barock- und Renaissancemusik. Kompositionen von Schütz, Schein, Bach oder Homilius gehören für Vokalschlag ins Standardrepertoire. Das Publikum kann sich aber auch auf moderne Ausflüge in die zeitgenössische Musik oder in den A-Cappella-Pop und –Jazz (zum Teil mit eigenen Arrangements) freuen. Dabei steht für die Sängerinnen und Sänger immer der Wille zum intensiven musikalischen Ausdruck im Vordergrund: Die Ernsthaftigkeit der Interpretation, gepaart mit einer gehörigen Portion Humor und Leichtigkeit, verbindet sich so zu kontrastreichen Konzertprogrammen, in denen musikalische „Stilbrüche“ in thematisch zusammenhängenden Blöcken kombiniert werden. Vokalschlag ist „A-cappella in grün“: intensiv, frisch und vielseitig.</p>
         </div>
     </section>
-    <section class="container has-background-grey-lighter has-text-weight-light">
-        <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Ensemblemitglieder</h2>
-        <div class="fixed-grid has-3-cols p-5 has-text-centered">
-            <div class="grid">
-                <div class='cell m-5' v-for="singer in singers">
-                    <figure class="image">
-                        <img v-bind:src="singer[1]" />
-                    </figure>
-                    {{singer[0]}}
-                </div>
-            </div>
+    <Ensemble />
+    <section class="container" id="konzerte">
+        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Anstehende Konzerte</h2>
+        <div v-if="events.length == 0" class="content">
+            <span class="loader"></span>
         </div>
-    </section>
-    <section class="container has-background-success">
-        <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Anstehende Konzerte</h2>
-        <div id="events" class="content m-5 p-5" v-for="event in futureEvents">
+        <div v-else id="events" class="content" v-for="(event, index) in futureEvents()" :key="index">
+            <div class="box event">
             <h3 class="has-text-weight-light">{{ event.title }}<br />
                 <small>{{ event.renderedDate }}</small>
                 </h3>
                 <p v-html="event.location"></p>
                 <div v-html="event.renderedDescription"></div>
+            </div>
         </div>
-        <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Konzert-Archiv</h2>
-        <div id="events" class="content m-5 p-5" v-for="event in pastEvents">
+    </section>
+    <section class="container" id="videos">
+        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Videos</h2>
+    </section>
+    <section class="container" id="konzertarchiv">
+        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Konzert-Archiv</h2>
+        <div v-if="events.length == 0" class="container">
+            <span class="loader"></span>
+        </div>
+        <div v-else class="tabs is-centered">
+            <p>{{  events() }}</p>
+            <ul v-for="(year, index) in archiveYears()" :key="index">
+                <li v-if="selectedArchiveYear() == year" class="is-active">
+                    <a>{{  year }}</a>
+                </li>
+                <li v-else>
+                    <a @click.prevent="setSelectedYearIndex(index)">{{  year }}</a>
+                </li>
+            </ul>
+        </div>
+        <div id="events" class="content" v-for="(event, index) in pastEvents()" :key="index">
+            <div class="box event">
             <h3 class="has-text-weight-light">{{ event.title }}<br />
                 <small>{{ event.renderedDate }}</small></h3>
                 <p v-html="event.location"></p>
@@ -163,6 +184,10 @@ export default {
                     <summary>Details</summary>
                     <div v-html="event.renderedDescription"></div>
                 </details>
+            </div>
         </div>
+´    </section>
+    <section class="container" id="kontakt">
+        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Kontakt</h2>
     </section>
 </template>

@@ -1,12 +1,34 @@
+html {
+    scroll-padding-top: 70px;
+    scroll-behavior: smooth;
+}
+
 .header-image {
     background-image: url("/assets/Vokalschlag-2.jpg");
     background-position: center center;
     background-repeat: no-repeat;
-    /* background-attachment: fixed; */
     background-size: cover;
     background-color: #999;
 }
 
 .semi-transparent {
     background-color: rgba(255, 255, 255, 0.8);
+}
+
+.event {
+    background-color: rgba(152, 229, 128, 0.8);
+}
+
+.loader {
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #4ef377; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+  }
+  
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
