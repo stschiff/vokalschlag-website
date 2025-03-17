@@ -133,9 +133,9 @@ export default {
 
 <template>
     <Navbar />
-    <section class="container has-background-light has-text-weight-light" id="ensemble">
-        <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Vokalschlag</h2>
-        <div class="content m-5 p-5">
+    <section class="container has-background-light has-text-weight-light p-6" id="ensemble">
+        <h2 class="is-size-3 has-text-weight-light mb-5">Vokalschlag</h2>
+        <div class="content">
             <p>Einzigartige Stimmfarben, intensiver musikalischer Ausdruck und eine große Nähe zum Konzertpublikum – das zeichnet das Ensemble Vokalschlag aus. Seit 2008 konzertiert das A-cappella-Sextett deutschlandweit und präsentiert seinem Publikum anspruchsvolle und professionell erarbeitete Werke vom 16. bis zum 21. Jahrhundert.</p>
             
             <p>Die sechs Sängerinnen und Sänger haben ihre Wurzeln in der Kölner Chorszene. Dort entwickelten sie Ihre Leidenschaft am Musizieren in kleiner Besetzung und an künstlerischer Arbeit im Team und auf Augenhöhe. Diese intensive musikalische und menschliche Arbeit hat letztlich auch die langjährige Freundschaft geprägt, die sich in vielen gestalterischen Aufmerksamkeiten im Konzerterlebnis widerspiegelt. </p>
@@ -144,8 +144,8 @@ export default {
         </div>
     </section>
     <Ensemble />
-    <section class="container" id="konzerte">
-        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Anstehende Konzerte</h2>
+    <section class="container p-6" id="konzerte">
+        <h2 class="is-size-3 has-text-weight-light mb-6">Anstehende Konzerte</h2>
         <div v-if="events.length == 0" class="content">
             <span class="loader"></span>
         </div>
@@ -159,11 +159,12 @@ export default {
             </div>
         </div>
     </section>
-    <section class="container" id="hoerproben">
-        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Hörproben</h2>
+    <section class="container p-5" id="hoerproben">
+        <h2 class="is-size-3 has-text-weight-light mb-5">Hörproben</h2>
+        <p>... coming soon ... </p>
     </section>
-    <section class="container" id="konzertarchiv">
-        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Konzert-Archiv</h2>
+    <section class="container p-5" id="konzertarchiv">
+        <h2 class="is-size-3 has-text-weight-light mb-5">Konzert-Archiv</h2>
         <div v-if="events.length == 0" class="container">
             <span class="loader"></span>
         </div>
@@ -189,7 +190,14 @@ export default {
             </div>
         </div>
 ´    </section>
-    <section class="container" id="kontakt">
-        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Kontakt</h2>
+    <section class="container p-5" id="kontakt">
+        <h2 class="is-size-3 has-text-weight-light mb-5">Kontakt</h2>
+        <p>Kontaktieren Sie uns unter <a href="mailto:info@vokalschlag.de">info@vokalschlag.de</a></p>
     </section>
+    <footer class="footer">
+    <div class="content has-text-centered">
+      <p>&#169; Vokalschlag (2025)</p>
+    </div>
+  </footer>
 </template>
+
