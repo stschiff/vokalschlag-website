@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-    <section class="hero is-success is-fullheight header-image" :style="{ backgroundImage: `url(${imgHero})` }">
+    <section class="hero is-success is-fullheight header-image mt-5" :style="{ backgroundImage: `url(${imgHero})` }">
         <!-- Hero header: will stick at the top -->
         <div class="hero-head">
             <nav class="navbar is-fixed-top semi-transparent">
