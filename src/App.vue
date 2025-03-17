@@ -3,6 +3,7 @@
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Ensemble from './Ensemble.vue';
+import Navbar from './Navbar.vue';
 
 
 function renderDescription({ content }) {
@@ -70,6 +71,7 @@ export default {
         };
     },
     components: {
+        Navbar,
         Ensemble
     },
     methods: {
@@ -130,6 +132,7 @@ export default {
 </script>
 
 <template>
+    <Navbar />
     <section class="container has-background-light has-text-weight-light" id="ensemble">
         <h2 class="is-size-3 m-5 p-5 has-text-weight-light">Vokalschlag</h2>
         <div class="content m-5 p-5">
