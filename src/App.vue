@@ -161,7 +161,7 @@ export default {
     </section>
     <section class="container p-6" id="hoerproben">
         <h2 class="is-size-3 has-text-weight-light mb-5">Hörproben</h2>
-        <p>... coming soon ... </p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/rj5GUQayrbI?si=14654SRsc-5x2Pv-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </section>
     <section class="container p-6" id="konzertarchiv">
         <h2 class="is-size-3 has-text-weight-light mb-5">Konzert-Archiv</h2>
