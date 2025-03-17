@@ -1,15 +1,18 @@
 <script>
+import imgHero from '/assets/Vokalschlag-2.jpg';
+
 export default {
    data: function() {
        return {
-           isOpen: false
+           isOpen: false,
+           imgHero
        }
    }
 }
 </script>
 
 <template>
-    <section class="hero is-success is-fullheight header-image">
+    <section class="hero is-success is-fullheight header-image" :style="{ backgroundImage: `url(${imgHero})` }">
         <!-- Hero header: will stick at the top -->
         <div class="hero-head">
             <nav class="navbar is-fixed-top semi-transparent">
@@ -38,3 +41,12 @@ export default {
         </div>
     </section>
 </template>
+
+<style>
+.header-image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #999;
+}
+</style>

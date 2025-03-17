@@ -1,11 +1,11 @@
 <script>
 
-import imgAnne from "/assets/Anne.png";
-import imgLaura from "/assets/Laura.png";
-import imgDenise from "/assets/Denise.png";
-import imgPuki from "/assets/Puki.png";
+import imgAnne    from "/assets/Anne.png";
+import imgLaura   from "/assets/Laura.png";
+import imgDenise  from "/assets/Denise.png";
+import imgPuki    from "/assets/Puki.png";
 import imgStephan from "/assets/Stephan.png";
-import imgJonas from "/assets/Jonas.png";
+import imgJonas   from "/assets/Jonas.png";
 
 export default {
     data() {
