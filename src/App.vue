@@ -145,7 +145,7 @@ export default {
     </section>
     <Ensemble />
     <section class="container p-6" id="konzerte">
-        <h2 class="is-size-3 has-text-weight-light mb-6">Anstehende Konzerte</h2>
+        <h2 class="is-size-3 has-text-weight-light mb-5">Anstehende Konzerte</h2>
         <div v-if="events.length == 0" class="content">
             <span class="loader"></span>
         </div>
@@ -159,11 +159,11 @@ export default {
             </div>
         </div>
     </section>
-    <section class="container p-5" id="hoerproben">
+    <section class="container p-6" id="hoerproben">
         <h2 class="is-size-3 has-text-weight-light mb-5">Hörproben</h2>
         <p>... coming soon ... </p>
     </section>
-    <section class="container p-5" id="konzertarchiv">
+    <section class="container p-6" id="konzertarchiv">
         <h2 class="is-size-3 has-text-weight-light mb-5">Konzert-Archiv</h2>
         <div v-if="events.length == 0" class="container">
             <span class="loader"></span>
@@ -190,7 +190,7 @@ export default {
             </div>
         </div>
 ´    </section>
-    <section class="container p-5" id="kontakt">
+    <section class="container p-6" id="kontakt">
         <h2 class="is-size-3 has-text-weight-light mb-5">Kontakt</h2>
         <p>Kontaktieren Sie uns unter <a href="mailto:info@vokalschlag.de">info@vokalschlag.de</a></p>
     </section>
