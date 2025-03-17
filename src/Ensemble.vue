@@ -1,14 +1,22 @@
 <script>
+
+import imgAnne from "/assets/Anne.png";
+import imgLaura from "/assets/Laura.png";
+import imgDenise from "/assets/Denise.png";
+import imgPuki from "/assets/Puki.png";
+import imgStephan from "/assets/Stephan.png";
+import imgJonas from "/assets/Jonas.png";
+
 export default {
     data() {
         return {
             singers: [
-                ["Anne Günster, Sopran",        "/assets/Anne.png"],
-                ["Laura Zucchini, Mezzosopran", "/assets/Laura.png"],
-                ["Denise Weltken, Alt",         "/assets/Denise.png"],
-                ["Christian Pukelsheim, Tenor", "/assets/Puki.png"],
-                ["Stephan Schiffels, Bariton",  "/assets/Stephan.png"],
-                ["Jonas Zucchini, Bass",        "/assets/Jonas.png"]],
+                ["Anne Günster, Sopran",        imgAnne],
+                ["Laura Zucchini, Mezzosopran", imgLaura],
+                ["Denise Weltken, Alt",         imgDenise],
+                ["Christian Pukelsheim, Tenor", imgPuki],
+                ["Stephan Schiffels, Bariton",  imgStephan],
+                ["Jonas Zucchini, Bass",        imgJonas]]
         };
     }
 }

@@ -156,8 +156,8 @@ export default {
             </div>
         </div>
     </section>
-    <section class="container" id="videos">
-        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Videos</h2>
+    <section class="container" id="hoerproben">
+        <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Hörproben</h2>
     </section>
     <section class="container" id="konzertarchiv">
         <h2 class="is-size-3 my-5 py-5 has-text-weight-light">Konzert-Archiv</h2>
@@ -165,7 +165,6 @@ export default {
             <span class="loader"></span>
         </div>
         <div v-else class="tabs is-centered">
-            <p>{{  events() }}</p>
             <ul v-for="(year, index) in archiveYears()" :key="index">
                 <li v-if="selectedArchiveYear() == year" class="is-active">
                     <a>{{  year }}</a>
