@@ -1,5 +1,5 @@
 <script>
-import imgHero from '/assets/Vokalschlag-2.jpg';
+import imgHero from '/assets/Vokalschlag-2_smaller.jpg';
 
 export default {
    data: function() {
