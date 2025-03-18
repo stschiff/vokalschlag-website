@@ -162,6 +162,8 @@ export default {
     <section class="container p-6" id="hoerproben">
         <h2 class="is-size-3 has-text-weight-light mb-5">Hörproben</h2>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/rj5GUQayrbI?si=14654SRsc-5x2Pv-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/XUni7_e984A?si=-0pZN6-jM-6VGagx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/8uMtDANziVg?si=qBl0YJxJCqo1oHht" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </section>
     <section class="container p-6" id="konzertarchiv">
         <h2 class="is-size-3 has-text-weight-light mb-5">Konzert-Archiv</h2>
@@ -192,7 +194,7 @@ export default {
 ´    </section>
     <section class="container p-6" id="kontakt">
         <h2 class="is-size-3 has-text-weight-light mb-5">Kontakt</h2>
-        <p>Kontaktieren Sie uns unter <a href="mailto:info@vokalschlag.de">info@vokalschlag.de</a></p>
+        <p>Kontaktieren Sie uns unter <a href="mailto:vokalschlag@googlemail.com">vokalschlag@googlemail.com</a></p>
     </section>
     <footer class="footer">
     <div class="content has-text-centered">
