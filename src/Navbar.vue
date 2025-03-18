@@ -12,8 +12,7 @@ export default {
 </script>
 
 <template>
-    <section class="hero is-success is-fullheight header-image mt-5" :style="{ backgroundImage: `url(${imgHero})` }">
-        <!-- Hero header: will stick at the top -->
+    <img v-bind:src="imgHero" width="100%" class="is-fullheight mt-5" />
         <div class="hero-head">
             <nav class="navbar is-fixed-top semi-transparent">
                 <div class="navbar-brand semi-transparent">
@@ -39,14 +38,4 @@ export default {
                 </div>
             </nav>
         </div>
-    </section>
 </template>
-
-<style>
-.header-image {
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: #999;
-}
-</style>
